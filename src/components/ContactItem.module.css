@@ -1,0 +1,20 @@
+.item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.text {
+    width: 300px;
+    padding: 5px;
+    display: inline;
+}
+
+.btn {
+    width: 70px;
+    padding: 5px;
+    background-color: lightpink;
+    border: solid gray 3px;
+    border-radius: 25%;
+    cursor: pointer;
+}
