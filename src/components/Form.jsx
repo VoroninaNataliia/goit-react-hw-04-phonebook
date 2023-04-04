@@ -1,33 +1,41 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import s from './Form.module.css';
 import PropTypes from 'prop-types';
 
-export class Form extends Component {
-  state = {
-    name: '',
-    number: '',
+const Form = ({ onSubmit }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+  const handleChange = (e) => {
+    const { name } = e.target;
+    switch (name) {
+      case 'name':
+        setName(e.target.value);
+        break;
+      case 'number':
+        setNumber(e.target.value);
+        break;
+      default:
+        throw new Error('error');
+    }
   };
 
-  handleChange = e => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    this.props.onSubmit(this.state);
+    onSubmit({name, number});
+    e.target.children.name.value = '';
+    e.target.children.number.value = '';
   };
 
-  render() {
     return (
       <>
-        <form className={s.form} onSubmit={this.handleSubmit}>
+        <form className={s.form} onSubmit={handleSubmit}>
           <label className={s.label} htmlFor="name">
             Name
           </label>
           <input
             className={s.input}
-            onChange={this.handleChange}
+            onChange={handleChange}
             type="text"
             name="name"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -40,7 +48,7 @@ export class Form extends Component {
           </label>
           <input
             className={s.input}
-            onChange={this.handleChange}
+            onChange={handleChange}
             type="tel"
             name="number"
             required
@@ -52,9 +60,10 @@ export class Form extends Component {
       </>
     );
   }
-}
+
 
 Form.propTypes = {
-  onChange: PropTypes.func,
   onSubmit: PropTypes.func,
 };
+
+export default Form;
